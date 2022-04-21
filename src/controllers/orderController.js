@@ -27,23 +27,23 @@ const createOrder = async function (req, res) {
             return res.status(400).send({ status: false, msg: "req body can't be empty" })
         }
         if (!isValidObjectId(userId)) {
-            return res.sttaus(400).send({ status: false, msg: "userId is not a valid objectId" })
+            return res.status(400).send({ status: false, msg: "userId is not a valid objectId" })
         }
         if (!isValid(cartId)) {
             return res.status(400).send({ status: false, msg: "cardId is required" })
         }
         if (!isValidObjectId(cartId)) {
-            return res.sttaus(400).send({ status: false, msg: "cartId is not a valid objectId" })
+            return res.status(400).send({ status: false, msg: "cartId is not a valid objectId" })
         }
 
         let userDetails = await userModel.findOne({ _id: userId })
         if (!userDetails) {
-            return res.status(400).send({ status: false, msg: "user not exist with this userId" })
+            return res.status(404).send({ status: false, msg: "user not exist with this userId" })
         }
 
         let cartDetails = await cartModel.findOne({ _id: cartId })
         if (!cartDetails) {
-            return res.status(400).send({ status: false, msg: "please create cart first to place order" })
+            return res.status(404).send({ status: false, msg: "please create cart first to place order" })
         }
         let totalQuantity = 0
         for (let i = 0; i < cartDetails.items.length; i++) {
@@ -100,7 +100,7 @@ const updateOrder = async function (req, res) {
 
         let orderDetails = await orderModel.findOne({ _id: orderId, isDeleted: false })
         if (!orderDetails) {
-            return res.status(400).send({ status: false, msg: "no order exist with this orderId" })
+            return res.status(404).send({ status: false, msg: "no order exist with this orderId" })
         }
         if (orderDetails.cancellable != true) {
             return res.status(400).send({ status: false, msg: "this item can't be cancelled as it is not cancellable" })

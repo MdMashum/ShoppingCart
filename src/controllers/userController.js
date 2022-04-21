@@ -169,6 +169,7 @@ const loginUser = async function (req, res) {
                 return res.status(404).send({ status: false, msg: "password is not matched" })
             }
         }
+         return res.status(404).send({status: false, msg: "email not found"})
 
     }
     catch (error) {
@@ -205,7 +206,7 @@ const getUserDetails = async function (req, res) {
 const updateUserDetails = async function (req, res) {
     try {
         let data = req.body.data
-        let Data = JSON.parse(data)
+        let Data = JSON.parse(data)  //convert text into a JavaScript object
         let files = req.files
         let userId = req.params.userId
 
@@ -218,6 +219,7 @@ const updateUserDetails = async function (req, res) {
         if (!isValidObjectId(userId)) {
             return res.status(400).send({ status: false, msg: "userId is not a valid objectId" })
         }
+        //as a property to ensure object belongs to the mentioned project or not. If found recognized object,return a Boolean true or false
         if (Data.hasOwnProperty('fname')) {
             if (isValid(fname)) {
                 detailsToBeUpdated['fname'] = fname

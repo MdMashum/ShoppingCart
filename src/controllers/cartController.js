@@ -95,7 +95,6 @@ const createCart = async function (req, res) {
         res.status(500).send({ msg: error.message })
     }
 }
-
 let updateCart = async function (req, res) {
     try {
         let data = req.body
